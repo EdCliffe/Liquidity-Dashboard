@@ -1,4 +1,4 @@
-# Define targets
+# Define targets ====================
 
 # https://info.uniswap.org/#/pools
 # for each network
@@ -20,9 +20,20 @@
 
 
 
-# Scrape data from targets
+# Scrape data from targets =============
 
-# Set up SQL database
+# Scrape Uniswap
+
+# scrape 1inch
+
+# scrape curve
+
+# scrape pancake
+
+# scrape balancer
+
+
+# Set up SQL database ====================
 
 # Add data to database
 
