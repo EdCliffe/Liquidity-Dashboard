@@ -2,7 +2,7 @@ from bot import Scraper
 from selenium import webdriver  # type: ignore
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-
+import csv
 # Define targets ====================
 
 # Coin price
@@ -52,13 +52,8 @@ class Liquidity_Scraper(Scraper):
 
 # Scrape Uniswap v3
     def scrape_uniswap_V3(self):
-        self.sel_get_url("https://info.uniswap.org/#/pools")
-        table = self.driver.find_element_by_xpath("/html/body/div/div/div[2]/div[3]/div/div[4]")
-        for table_row in table:
-            data = table_row
-            print(data)
+        # scrape_uniswap.py
 
-        # self.sel_click_xpath("/html/body/div/div/div[2]/div[3]/div/div[4]/div/div[13]/div[3]/div")
 # Scrape Uniswap v2
     def scrape_uniswap_V2(self):
         self.sel_get_url("https://v2.info.uniswap.org/")
@@ -104,51 +99,4 @@ class Liquidity_Scraper(Scraper):
 
 
 #%%
-import time
-import pandas as pd
-from selenium import webdriver  # type: ignore
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-
-chrome_options = Options()
-chrome_options.add_argument("--disable-dev-shm-usage")
-chrome_options.add_argument("--no-sandbox")
-# chrome_options.add_argument("--headless")
-driver = webdriver.Chrome("/usr/bin/chromedriver", options=chrome_options)
-driver.maximize_window()
-
-url = "https://info.uniswap.org/#/pools"
-
-driver.get('https://info.uniswap.org/#/pools')
-time.sleep(4)
-pairs = driver.find_elements_by_xpath('//div[@class="sc-chPdSV goKJOd sc-bMVAic jAcXPQ css-63v6lo"]')
-stats = driver.find_elements_by_xpath('//div[@class="sc-chPdSV goKJOd sc-bMVAic eOIWzG css-63v6lo"]')
-
-# click button 
-driver.find_element(By.XPATH, "//div[@class='sc-GMQeP hXYrmI'").click()
-
-# gather more tables, click button etc, make large list of all 6 pages, then combine at the end
-
-names = []
-for row in pairs:
-    names.append(row.text)
-
-nums = []
-for row in stats:
-    nums.append(row.text)
-
-clean_names =[]
-
-for i in range(1,21,2):
-    clean_names.append(names[i])
-
-
-df = pd.DataFrame(columns = ["Pool","TVL", "Vol 24hr", "Vol 7day"]) 
-df["Pool"] = clean_names
-
-df["TVL"] = [nums[i] for i in range(0,30,3)]
-df["Vol 24hr"] = [nums[i] for i in range(1,30,3)]
-df["Vol 7day"] = [nums[i] for i in range(2,30,3)]
-
-
 
