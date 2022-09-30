@@ -2,7 +2,7 @@ from bot import Scraper
 from selenium import webdriver  # type: ignore
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import csv
+
 # Define targets ====================
 
 # Coin price
@@ -99,4 +99,11 @@ class Liquidity_Scraper(Scraper):
 
 
 #%%
+import csv
+import pandas as pd
 
+df = pd.read_csv('uni_poly.csv')
+
+df['metric'] = (df['Vol 7day']/df['TVL'])*df['Fees']
+df_sort = df.sort_values("metric", ascending=False)
+df_sort.head
